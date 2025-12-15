@@ -1,0 +1,59 @@
+## Base PPO configuration shared defaults
+
+# Choose environment via a selector group (env=atari|minigrid|procgen)
+defaults:
+  - _self_
+  - experiment: default
+  - manifold: default
+  - policy: default
+  - value_fn: default
+  - optimizer: default
+  - encoder: default
+  # Default environment selection via env var (set PPO_ENV=atari|minigrid|procgen)
+  - envs/ppo: procgen
+  # Logging settings
+  - override /hydra/hydra_logging: disabled
+  - override /hydra/job_logging:   disabled
+
+logging_level: 20
+
+env_type: ${envs/ppo.env_type}
+
+# Env settings
+env_id: CartPole-v1
+# total timesteps of the experiments
+total_timesteps: 500000
+
+# PPO settings
+num_envs: 4
+num_steps: 128
+gamma: 0.99
+gae_lambda: 0.95
+num_minibatches: 4
+update_epochs: 4
+norm_adv: true
+clip_coef: 0.2
+ent_coef: 0.01
+vf_coef: 0.5
+max_grad_norm: 0.5
+target_kl: null
+
+# Encoder
+encoder:
+  embedding_dim: 256
+  last_layer_tanh: false
+  regularization: none
+  feature_scaling: none
+  scaling_alpha: 0.95
+
+# runtime-computed fields (kept for completeness; not used by Hydra directly)
+batch_size: ???
+minibatch_size: ???
+num_iterations: ???
+
+# model saving
+save_agent: false
+save_interval: 1000000
+
+# expensive embedding metrics
+compute_embedding_metrics: false

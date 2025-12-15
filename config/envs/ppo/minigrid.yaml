@@ -1,0 +1,73 @@
+# @package _global_
+# PPO config for MiniGrid
+
+# Selected environment type
+env_type: minigrid
+
+# Algorithm specific
+experiment:
+  wandb_project_name: "Hyperbolic RL"
+  track: false
+  exp_name: hyperbolic_ppo_gridworld
+
+manifold:
+  manifold: euclidean
+  curvature: 1.0
+  manifold_dtype: float32
+
+# Actor overrides
+policy:
+  forward_pass: HRL_forward
+  small_weights: false
+  manifold_params_dtype: float32
+  clamping_factor: 1.0
+  smoothing_factor: 50.0
+
+# Critic overrides
+value_fn:
+  forward_pass: HRL_forward
+  small_weights: false
+  manifold_params_dtype: float32
+  clamping_factor: 1.0
+  smoothing_factor: 50.0
+
+  loss_fn: mse
+  loss_num_bins: 51
+  loss_min_value: -10.0
+  loss_max_value: 10.0
+
+optimizer:
+  algorithm: adam
+  learning_rate: 0.0003
+  adam_eps: 0.0005
+
+# Env
+# MiniGrid-Empty-16x16-v0 (8x8 also possible)
+env_id: MiniGrid-Empty-8x8-v0
+total_timesteps: 100000
+dense_reward: false
+disable_orientation: false
+
+# PPO
+num_envs: 32
+num_steps: 128
+num_minibatches: 16
+update_epochs: 10 # 12
+gamma: 0.99
+gae_lambda: 0.95
+ent_coef: 0.001
+max_grad_norm: 0.5 # 1.5
+target_kl: null
+clip_coef: 0.2 # 0.4
+vf_coef: 0.4 # 0.15
+# Encoder
+encoder:
+  embedding_dim: 2
+  regularization: sn
+  feature_scaling: dim
+  scaling_alpha: 0.95
+compute_embedding_metrics: true
+
+# model saving
+save_agent: false
+save_interval: 100000

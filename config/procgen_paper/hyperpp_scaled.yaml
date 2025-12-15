@@ -1,0 +1,104 @@
+## Base PPO configuration shared defaults
+
+# Choose environment via a selector group (env=atari|minigrid|procgen)
+defaults:
+  - /experiment: default
+  - /manifold: default
+  - /policy: default
+  - /value_fn: default
+  - /optimizer: default
+  - /encoder: default
+  - /envs/ppo: procgen
+  - _self_
+
+logging_level: 20
+
+env_type: procgen
+
+# Algorithm specific
+experiment:
+  num_threads: 1
+  gpu: 0
+  wandb_entity: hyper-rl
+  wandb_project_name: "Hyperbolic RL - ProcGen Paper"
+  tag: hyper++-scaled
+  track: true
+
+manifold:
+  manifold: hyperboloid
+  curvature: 1.0
+  manifold_dtype: float64
+
+# Actor overrides
+policy:
+  forward_pass: HNNpp_MLR
+  small_weights: false
+  manifold_params_dtype: float32
+  clamping_factor: 1.0
+  smoothing_factor: 50.0
+
+# Critic overrides
+value_fn:
+  forward_pass: HNNpp_MLR
+  small_weights: false
+  manifold_params_dtype: float32
+  clamping_factor: 1.0
+  smoothing_factor: 50.0
+  # Value loss parameters
+  loss_fn: hlgauss
+  loss_num_bins: 51
+  loss_min_value: -10.0
+  loss_max_value: 10.0
+
+optimizer:
+  algorithm: adam
+  learning_rate: 0.0005
+  adam_eps: 1e-05 # Only for Adam
+  encoder_weight_decay: 0.0
+
+# Env
+env_id: bigfish
+total_timesteps: 25000000
+num_levels: 200
+level_distribution: easy
+env_min_return: null
+env_max_return: null
+eval_num_envs: 10
+eval_max_steps: 1000000
+eval_train: true
+# Use evaluation on the test distribution according to the paper.
+eval_test: true
+
+# PPO
+num_envs: 64
+num_steps: 256
+gamma: 0.999
+gae_lambda: 0.95
+norm_adv: true
+num_minibatches: 8
+update_epochs: 2
+max_grad_norm: 0.5
+target_kl: null
+clip_coef: 0.2
+vf_coef: 0.5
+ent_coef: 0.01
+
+# Encoder
+encoder:
+  embedding_dim: 64
+  last_layer_tanh: true
+  regularization: rms
+  feature_scaling: learnable
+  scaling_alpha: 0.95
+
+# runtime-computed fields (kept for completeness; not used by Hydra directly)
+batch_size: ???
+minibatch_size: ???
+num_iterations: ???
+
+# model saving
+save_agent: false
+save_interval: 1000000
+
+# expensive embedding metrics
+compute_embedding_metrics: false

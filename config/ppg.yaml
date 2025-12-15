@@ -1,0 +1,22 @@
+# PPG configuration inheriting from PPO
+defaults:
+  - ppo
+  - _self_
+
+# Override experiment name
+experiment:
+  exp_name: ppg
+
+# PPG-specific hyperparameters
+n_iteration: 32           # Number of policy phase iterations per phase
+e_policy: 1               # Epochs per policy update (typically 1 for PPG)
+e_auxiliary: 6            # Epochs for auxiliary phase (typically 6)
+beta_clone: 1.0           # Behavior cloning coefficient
+n_aux_grad_accum: 1       # Gradient accumulation steps (increase if OOM)
+num_aux_rollouts: 4       # Auxiliary minibatch size (CleanRL default)
+aux_v_loss_scale: 1.0     # Scale for auxiliary value loss (0.1 works well for HL-Gauss)
+
+# Override PPO's update_epochs (not used directly in PPG, but needed for compatibility)
+update_epochs: ${e_policy}
+num_phases: ??? # Total number of phases, calculated at runtime
+aux_batch_rollouts: ??? # Number of rollouts in auxiliary batch, calculated at runtime

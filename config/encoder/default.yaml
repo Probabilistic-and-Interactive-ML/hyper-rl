@@ -1,0 +1,17 @@
+# Encoder configuration
+embedding_dim: 256
+last_layer_tanh: false
+# "none"
+# "sn": spectral normalization for ALL layers 
+# "sn_penultimate": spectral normalization for PENULTIMATE layers
+# "ln": layer normalization for PENULTIMATE layers
+# "rms": RMS normalization for PENULTIMATE layers
+regularization: none
+# method for scaling the features of the penultimate layer to stabilize training.
+# "none": don't rescale features
+# "dim": rescale by the square root of the number of samples
+# "unit_ball": rescale all features to lie on the unit ball
+# "learnable": learned a scaling factor such that the max norm is a fraction of the radius of the manifold
+feature_scaling: dim
+# Learnable feature scaling alpha parameter (only for "learnable" feature scaling)
+scaling_alpha: 0.95

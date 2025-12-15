@@ -1,0 +1,12 @@
+defaults:
+  - _self_
+  - /hyp_layer@_here_: default
+
+# Loss configuration
+# "mse": Mean-squared error 
+# "huber": Huber loss
+# "hlgauss": Categorical cross-entropy with Gaussian approximation
+loss_fn: mse
+loss_min_value: -10
+loss_max_value: 10
+loss_num_bins: 51

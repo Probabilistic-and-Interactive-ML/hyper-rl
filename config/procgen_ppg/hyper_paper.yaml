@@ -1,0 +1,115 @@
+## Base PPO configuration shared defaults
+
+# Choose environment via a selector group (env=atari|minigrid|procgen)
+defaults:
+  - /experiment: default
+  - /policy: default
+  - /value_fn: default
+  - /optimizer: default
+  - /envs/ppo: procgen
+  - _self_
+
+logging_level: 20
+
+env_type: procgen
+
+# Algorithm specific
+experiment:
+  num_threads: 1
+  gpu: 0
+  wandb_entity: hyper-rl
+  wandb_project_name: "Hyperbolic RL - PPG Procgen Final"
+  tag: hyper-srym
+  track: true
+
+# Actor overrides
+policy:
+  curvature: 1.0
+  manifold: poincare
+  forward_pass: HRL_forward
+  small_weights: false
+  manifold_dtype: float32
+  manifold_params_dtype: float32
+  clamping_factor: 1.0
+  smoothing_factor: 50.0
+
+# Critic overrides
+value_fn:
+  curvature: 1.0
+  manifold: poincare
+  forward_pass: HRL_forward
+  small_weights: false
+  manifold_dtype: float32
+  manifold_params_dtype: float32
+  clamping_factor: 1.0
+  smoothing_factor: 50.0
+  # Value loss parameters
+  loss_fn: mse
+  loss_num_bins: 51
+  loss_min_value: -10.0
+  loss_max_value: 10.0
+
+optimizer:
+  algorithm: adam
+  learning_rate: 0.0005
+  adam_eps: 1e-05 # Only for Adam
+  encoder_weight_decay: 0.0
+
+# Env
+env_id: bigfish
+total_timesteps: 25000000
+num_levels: 200
+level_distribution: easy
+env_min_return: null
+env_max_return: null
+eval_num_envs: 10
+eval_max_steps: 1000000
+eval_train: true
+# Use evaluation on the test distribution according to the paper.
+eval_test: true
+
+# PPG-specific hyperparameters
+n_iteration: 32           # Number of policy phase iterations per phase
+e_policy: 1               # Epochs per policy update (typically 1 for PPG)
+e_auxiliary: 6            # Epochs for auxiliary phase (typically 6)
+beta_clone: 1.0           # Behavior cloning coefficient
+n_aux_grad_accum: 1       # Gradient accumulation steps (increase if OOM)
+num_aux_rollouts: 4       # Auxiliary minibatch size (CleanRL default)
+aux_v_loss_scale: 1.0     # Scale for auxiliary value loss (0.1 works well for HL-Gauss)
+
+# PPO
+num_envs: 64
+num_steps: 256
+gamma: 0.999
+gae_lambda: 0.95
+norm_adv: true
+num_minibatches: 8
+# Override PPO's update_epochs (not used directly in PPG, but needed for compatibility)
+update_epochs: ${e_policy}
+max_grad_norm: 0.5
+clip_coef: 0.2
+vf_coef: 0.5
+target_kl: null
+ent_coef: 0.01
+
+# Encoder
+encoder:
+  embedding_dim: 32
+  last_layer_tanh: false
+  regularization: sn
+  feature_scaling: dim
+  scaling_alpha: 0.95
+
+# runtime-computed fields (kept for completeness; not used by Hydra directly)
+batch_size: ???
+minibatch_size: ???
+num_iterations: ???
+num_phases: ???
+aux_batch_rollouts: ???
+
+# model saving
+save_agent: false
+save_interval: 1000000
+
+# expensive embedding metrics
+compute_embedding_metrics: false

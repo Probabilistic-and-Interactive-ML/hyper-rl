@@ -1,0 +1,6 @@
+# Optimizer configuration
+algorithm: adam
+learning_rate: 0.00025
+adam_eps: 1e-05 # Only for Adam
+encoder_weight_decay: 0.0
+momentum: 0.9 # Only for SGD

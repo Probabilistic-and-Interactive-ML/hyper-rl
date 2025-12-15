@@ -1,0 +1,50 @@
+## Base DDQN configuration shared defaults
+# Default environment selection via env var (set DQN_ENV=atari|minigrid)
+# Fallback is 'minigrid' if DQN_ENV is not set.
+
+# Choose environment via a selector group (env=atari|minigrid)
+defaults:
+  - _self_
+  - experiment: default
+  - manifold: default
+  - optimizer: default
+  - value_fn: default
+  - encoder: default
+  - envs/dqn: minigrid
+  # Logging settings
+  - override /hydra/hydra_logging: disabled
+  - override /hydra/job_logging:   disabled
+
+logging_level: 20
+
+env_type: ${envs/ppo.env_type}
+
+# Env settings
+env_id: CartPole-v1
+total_timesteps: 500000
+num_envs: 1
+
+# DDQN settings
+learning_rate: 2.5e-4
+optimizer: adam
+adam_eps: 1e-5
+buffer_size: 10000
+learning_starts: 10000
+train_frequency: 10
+target_network_frequency: 500
+tau: 1.0
+gamma: 0.99
+start_e: 1.0
+end_e: 0.05
+exploration_fraction: 0.5
+batch_size: 32
+
+# Encoder
+encoder:
+  embedding_dim: 128
+  last_layer_tanh: false
+  regularization: none
+  feature_scaling: none
+
+encoder_log_frequency: 1000
+compute_embedding_metrics: false

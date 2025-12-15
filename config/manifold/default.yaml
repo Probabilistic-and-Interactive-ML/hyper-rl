@@ -1,0 +1,7 @@
+# @package _self_
+# "poincare", "hyperboloid", or "euclidean"
+manifold: hyperboloid
+# Curvature of the manifold
+curvature: 1.0
+# Precision of the manifold computations
+manifold_dtype: float64

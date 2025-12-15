@@ -1,0 +1,21 @@
+# Experiment configuration
+exp_name: experiment
+seed: 1
+# if toggled, `torch.backends.cudnn.deterministic=False`
+torch_deterministic: true
+# specifies the GPU on which the experiment will run. -1 for CPU
+gpu: 1
+# the number of threads to use for parallel processing
+num_threads: 2
+# if toggled, this experiment will be tracked with Weights and Biases
+track: false
+# the wandb's project name
+wandb_project_name: Hyperbolic RL
+# wandb tag for the run
+tag: null
+# the entity (team) of wandb's project
+wandb_entity: null
+# whether to capture videos of the agent performances (check out `videos` folder)
+capture_video: false
+# the directory where the experiment will be saved
+run_name: ???

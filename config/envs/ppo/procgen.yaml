@@ -1,0 +1,76 @@
+# @package _global_
+# PPO config for ProcGen
+
+# Selected environment type
+env_type: procgen
+
+# Algorithm specific
+experiment:
+  num_threads: 1
+  wandb_project_name: "Hyperbolic RL - ProcGen Test"
+  track: false
+
+manifold:
+  manifold: poincare
+  curvature: 1.0
+  manifold_dtype: float64
+
+# Actor overrides
+policy:
+  forward_pass: HNNpp_MLR
+  small_weights: false
+  manifold_params_dtype: float32
+  clamping_factor: 1.0
+  smoothing_factor: 50.0
+
+# Critic overrides
+value_fn:
+  forward_pass: HNNpp_MLR
+  small_weights: false
+  manifold_params_dtype: float32
+  clamping_factor: 1.0
+  smoothing_factor: 50.0
+
+  loss_fn: hlgauss
+  loss_num_bins: 51
+  loss_min_value: -10.0
+  loss_max_value: 10.0
+
+optimizer:
+  algorithm: adam
+  learning_rate: 0.0005
+  encoder_weight_decay: 0.0
+  adam_eps: 1e-05 # Only for Adam
+
+# Env
+env_id: bigfish
+total_timesteps: 25000000
+num_levels: 200
+level_distribution: easy
+env_min_return: null
+env_max_return: null
+eval_num_envs: 10
+eval_max_steps: 1000000
+eval_train: false
+# Use evaluation on the test distribution according to the paper.
+eval_test: false
+# Whether to use argmax policy or sampling for evaluation
+stochastic_eval: true
+
+# PPO
+num_envs: 64
+num_steps: 256
+gamma: 0.999
+gae_lambda: 0.95
+num_minibatches: 8
+update_epochs: 2
+max_grad_norm: 0.5
+clip_coef: 0.2
+vf_coef: 0.5
+# Encoder
+encoder:
+  embedding_dim: 32
+  regularization: ln
+  feature_scaling: dim
+  scaling_alpha: 0.95
+compute_embedding_metrics: false

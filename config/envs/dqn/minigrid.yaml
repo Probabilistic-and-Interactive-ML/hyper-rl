@@ -1,0 +1,51 @@
+# @package _global_
+env_type: minigrid
+
+experiment:
+  num_threads: 1
+  wandb_project_name: "Hyperbolic DDQN - Minigrid"
+  track: false
+
+# Env settings
+env_id: MiniGrid-Empty-5x5-v0
+total_timesteps: 150000
+dense_reward: false
+disable_orientation: false
+
+# Optimizer settings
+optimizer:
+  algorithm: adam
+  learning_rate: 2.5e-4
+  adams_eps: 2.5e-5
+
+manifold:
+  manifold: poincare
+  curvature: 1.0
+  manifold_dtype: float64
+
+# Q-overrides
+value_fn:
+  forward_pass: HNNpp_MLR
+  small_weights: false
+  manifold_params_dtype: float32
+  clamping_factor: 1.0
+  smoothing_factor: 50.0
+  loss_fn: hlgauss
+  loss_num_bins: 51
+  loss_min_value: -10.0
+  loss_max_value: 10.0
+
+# DDQN settings
+
+# Encoder
+encoder:
+  embedding_dim: 256
+  last_layer_tanh: false
+  regularization: ln
+  feature_scaling: dim
+  scaling_alpha: 0.95
+
+gamma: 0.99
+
+encoder_log_frequency: 10000
+compute_embedding_metrics: false

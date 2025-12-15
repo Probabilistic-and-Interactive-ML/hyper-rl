@@ -1,0 +1,73 @@
+# @package _global_
+env_type: atari
+
+# Choose environment via a selector group (env=atari|minigrid|procgen)
+defaults:
+  - /experiment: default
+  - /manifold: default
+  - /value_fn: default
+  - /optimizer: default
+  - /encoder: default
+  - /envs/dqn: atari
+  - _self_
+
+experiment:
+  num_threads: 1
+  gpu: 0
+  wandb_entity: hyper-rl
+  wandb_project_name: "Hyperbolic RL - Atari 10M"
+  tag: hyper++
+  track: true
+
+# Env settings
+env_id: BreakoutNoFrameskip-v4
+total_timesteps: 10000000
+
+# Optimizer settings
+optimizer:
+  algorithm: adam
+  learning_rate: 1e-4
+  adams_eps: 2.5e-5
+
+manifold:
+  manifold: hyperboloid
+  curvature: 1.0
+  manifold_dtype: float64
+
+# Q-overrides
+value_fn:
+  forward_pass: HNNpp_MLR
+  small_weights: false
+  manifold_params_dtype: float32
+  clamping_factor: 1.0
+  smoothing_factor: 50.0
+  # Value loss parameters
+  loss_fn: hlgauss
+  loss_num_bins: 51
+  loss_min_value: -10.0
+  loss_max_value: 10.0
+
+# DDQN settings
+learning_rate: 1e-4
+
+# Encoder
+encoder:
+  embedding_dim: 512
+  last_layer_tanh: false
+  regularization: rms
+  feature_scaling: learnable
+  scaling_alpha: 0.95
+
+batch_size: 32
+buffer_size: 1000000
+learning_starts: 80000
+train_frequency: 4
+target_network_frequency: 1000
+tau: 1.0
+gamma: 0.99
+start_e: 1.0
+end_e: 0.01
+exploration_fraction: 0.10
+
+encoder_log_frequency: 20000
+compute_embedding_metrics: false

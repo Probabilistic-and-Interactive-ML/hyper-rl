@@ -1,0 +1,4 @@
+# Hyperbolic configuration
+defaults:
+  - _self_
+  - /hyp_layer@_here_: default

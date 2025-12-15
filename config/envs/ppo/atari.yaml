@@ -1,0 +1,60 @@
+# @package _global_
+# PPO config for Atari
+
+# Selected environment type
+env_type: atari
+
+# Algorithm specific
+experiment:
+  wandb_project_name: "Hyperbolic RL - Atari"
+  track: false
+
+manifold:
+  manifold: poincare
+  curvature: 1.0
+  manifold_dtype: float32
+
+# Actor overrides
+policy:
+  forward_pass: HRL_forward
+  small_weights: false
+  manifold_params_dtype: float32
+  clamping_factor: 1.0
+  smoothing_factor: 50.0
+
+# Critic overrides
+value_fn:
+  forward_pass: HRL_forward
+  small_weights: false
+  manifold_params_dtype: float32
+  clamping_factor: 1.0
+  smoothing_factor: 50.0
+
+  loss_fn: mse
+  loss_num_bins: 51
+  loss_min_value: -10.0
+  loss_max_value: 10.0
+
+optimizer:
+  algorithm: adam
+  learning_rate: 0.00025
+  adam_eps: 1e-05 # Only for Adam
+
+# Env
+env_id: BreakoutNoFrameskip-v4
+total_timesteps: 10000000
+
+# PPO
+num_envs: 8
+clip_coef: 0.1
+ent_coef: 0.01
+vf_coef: 0.5
+max_grad_norm: 0.5
+target_kl: null
+
+# Encoder
+encoder:
+  embedding_dim: 512
+  regularization: sn
+  feature_scaling: dim
+  scaling_alpha: 0.95

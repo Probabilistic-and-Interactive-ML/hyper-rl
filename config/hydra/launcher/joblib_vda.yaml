@@ -1,0 +1,10 @@
+# @package hydra.launcher
+# Local Joblib launcher config. Use with `hydra/launcher=joblib_local`.
+# This references the plugin's launcher and only overrides a few knobs.
+_target_: hydra_plugins.hydra_joblib_launcher.joblib_launcher.JoblibLauncher
+
+# Number of parallel jobs to run. Set to -1 to use all cores.
+n_jobs: 6
+prefer: processes
+backend: loky
+verbose: 1

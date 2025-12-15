@@ -1,0 +1,17 @@
+# Forward pass types for hyperbolic heads
+# Hyperbolic Reinforcement Learning (HRL)
+# "HRL_forward": hyperplane MLR layer
+# "HRL_forward_rs": scaled hyperplane MLR layer 
+# Hyperbolic Neural Networks (HNN)
+# "HNN_FC": manifold fully connected layer
+# "HNN_MLR": hyperplane MLR layer
+# Hyperbolic Neural Networks ++ (HNNpp)
+# "HNNpp_FC": manifold fully connected layer
+# "HNNpp_MLR": hyperplane MLR layer for Poincare and Hyperboloid
+# "HNNpp_MLR_sq": Squashed hyperplane layer
+forward_pass: HNNpp_MLR
+small_weights: false
+manifold_params_dtype: float32
+clamping_factor: 1.0
+# Smoothing in clamping
+smoothing_factor: 50.0
