@@ -1,4 +1,11 @@
+<div align="center">
+
 # Understanding and Improving Hyperbolic Deep Reinforcement Learning
+
+[![Paper](https://img.shields.io/badge/arXiv-2512.14202-B31B1B.svg)](https://arxiv.org/abs/2512.14202)
+[![Paper](https://img.shields.io/badge/python-3.12-green)](./.python-version)
+[![license](https://img.shields.io/badge/License-BSD%203--Clause-blue.svg)](./LICENSE)
+</div>
 
 ## Installation
 
@@ -87,7 +94,6 @@ Ablation studies for individual HYPER++ components:
 - `procgen_hyperpp_nohlgauss.yaml` - Using MSE instead of categorical loss
 - `procgen_hyperpp_poincare.yaml` - Using Poincaré Ball instead of Hyperboloid
 
-
 ```bash
 uv run run_ppo.py -cd=config/ppo_ablations -cn=procgen_hyperpp_no_rms experiment.gpu=0 env_id=bigfish
 ```
@@ -106,3 +112,16 @@ Common parameters you might want to adjust:
 
 - `num_envs=<int>` - Number of parallel environments (default: 64 for Procgen)
 - `total_timesteps=<int>` - Training duration (default: 25M for Procgen, 10M for Atari)
+
+## Citation
+
+If you use our code for your research, please cite our paper:
+
+```bibtex
+@article{klein2025hyperrl,
+  title={Understanding and Improving Hyperbolic Deep Reinforcement Learning},
+  author={Klein, Timo and Lang, Thomas and Shkabrii, Andrii and Sturm, Alexander and Sidak, Kevin and Miklautz, Lukas and Velaj, Yllka and Plant, Claudia and Tschiatschek, Sebastian},
+  journal={arXiv preprint arXiv:2512.14202},
+  year={2025}
+}
+```
